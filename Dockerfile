@@ -1,14 +1,11 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
+# Use OpenJDK as the base image
+FROM openjdk:17-jdk-slim
 
-MAINTAINER Muhammad Edwin < edwin at redhat dot com >
+# Set the working directory
+WORKDIR /app
 
-LABEL BASE_IMAGE="registry.access.redhat.com/ubi8/ubi-minimal:8.5"
-LABEL JAVA_VERSION="11"
+# Copy the JAR file into the container
+COPY target/hello-world-1.0-SNAPSHOT.jar app.jar
 
-RUN microdnf install --nodocs java-11-openjdk-headless && microdnf clean all
-
-WORKDIR /work/
-COPY target/*.jar /work/application.jar
-
-EXPOSE 8080
-CMD ["java", "-jar", "application.jar"]
+# Command to run the application
+CMD ["java", "-jar", "app.jar"]
