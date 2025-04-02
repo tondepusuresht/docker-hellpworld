@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-	
+    runs-on: ubuntu-latest	
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -21,10 +19,9 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install --file pom.xml
-	security-check:
+  security-check:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
     - uses: actions/checkout@v4
     - name: Trivy Installation
@@ -44,7 +41,7 @@ jobs:
       run: gitleaks detect source . -r gitleaks-report.json -f json
 
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: security-check
     steps:
     - uses: actions/checkout@v4
@@ -58,11 +55,9 @@ jobs:
       run: mvn test
 
   docker:
-    needs: build
     runs-on: ubuntu-latest
-  
-
-    steps:
+    needs: test	
+      steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
