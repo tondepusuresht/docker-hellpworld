@@ -86,5 +86,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: docker/bankapp:latest
+        tags: tondepusuresh/docker:latest
         file: ./Dockerfile
