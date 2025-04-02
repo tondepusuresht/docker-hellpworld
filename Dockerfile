@@ -1,11 +1,13 @@
-# Use OpenJDK as the base image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-alpine
+    
+EXPOSE 8080
 
-# Set the working directory
-WORKDIR /app
+RUN ls 
 
-# Copy the JAR file into the container
-COPY target/hello-world-1.0-SNAPSHOT.jar app.jar
+ENV APP_HOME /usr/src/app
 
-# Command to run the application
+COPY app/*.jar $APP_HOME/app.jar
+
+WORKDIR $APP_HOME
+
 CMD ["java", "-jar", "app.jar"]
